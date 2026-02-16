@@ -2,6 +2,10 @@
 {
     public class Program
     {
+        public static void BroadCast(string message)
+        {
+            Console.WriteLine(message);
+        }
         public static void CountDown(int n)
         {
             string? message = null;
@@ -10,13 +14,13 @@
             while (i > 0)
             {
                 message = $"Countdown: {i}";
-                Console.WriteLine(message);
+                BroadCast(message);
                 i--;
             }
 
             if (message != null)
             {
-                Console.WriteLine("Countdown finished");
+                BroadCast("Countdown finished");
             }
         }
         public static void Main()

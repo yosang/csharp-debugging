@@ -1,5 +1,5 @@
 # Debugging
-The art of fiding, analyzing and correcting errors in code.
+The art of finding, analyzing and correcting errors in code.
 
 - `Syntax` errors - These are often detected by the compiler.
 - `Logic` errors - Refer to code that is syntatically correct but does not behave as expected, these are hard to detect and can be found with a `debugger` tool.
@@ -7,7 +7,171 @@ The art of fiding, analyzing and correcting errors in code.
 # Debugger
 A tool that allows code execution to pause at a breakpoint.
 
-Once code is paused, we can analyize the current state of `variables`, `objects` etc...
+Once code is paused, we can analyze the current state of `variables`, `objects` etc...
+
+## Configuration
+Often, we dont really have to do a lot of configuration, the `IDE` will implement this for us.
+
+To start the debugger we can press `Ctrl + Shift + D` then click on `Run and Debug`.
+- This will run the debugger right away if already have a `launch.json` configured.
+- If we havent used the debugger tool before on this project, chances are that we need to configure it.
+
+To configure, after opening the debugger tab, click on `create a launch.json file`.
+- From here choose whatever we are debugging it, for my case its `.NET 5 and .NET Core`.
+
+It will open a new tab with the configuration details, here is what I got.
+
+```json
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        
+        {
+            "name": ".NET Core Launch (console)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/bin/Debug/net9.0/debugging.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+        {
+            "name": ".NET Core Attach",
+            "type": "coreclr",
+            "request": "attach"
+        }
+    ]
+}
+```
+
+## Custom Configuration
+if we dont get a configuration file automatically generated, we probably have to set it up ourselves.
+
+We might get something like this
+- From here, we add a double quotes `""` on `configurations` and should get some IntelliSense, 
+
+```json
+{
+    "version": "0.2.0",
+    "configurations": []
+}
+```
+
+We can select multiple configurations
+- We select `.NET Core Launch (console)`, and a template configuration should show up.
+
+```json
+{
+    "version": "0.2.0",
+    "configurations": [{
+        "name": ".NET Core Launch (console)",
+        "type": "coreclr",
+        "request": "launch",
+        "preLaunchTask": "build",
+        "program": "${workspaceFolder}/bin/Debug/<target-framework>/<project-name.dll>",
+        "args": [],
+        "cwd": "${workspaceFolder}",
+        "stopAtEntry": false,
+        "console": "internalConsole"
+    }]
+}
+```
+
+We can see here that some stuff must be replaced:
+- `<target-framework>` - This we can get from our `csproj` file under `<TargetFramework>`, for me its `net9.0`
+- `<project-name.dll>` - This is usually just the name of the `csproj` file, but with a `.dll` extension instead, if in doubt, we can find it here `./obj/Debug/net9.0/debugging.dll`
+
+The final version
+
+```json
+{
+    "version": "0.2.0",
+    "configurations": [{
+        "name": ".NET Core Launch (console)",
+        "type": "coreclr",
+        "request": "launch",
+        "preLaunchTask": "build",
+        "program": "${workspaceFolder}/bin/Debug/net9.0/debugging.dll",
+        "args": [],
+        "cwd": "${workspaceFolder}",
+        "stopAtEntry": false,
+        "console": "internalConsole"
+    }]
+}
+```
+
+## build task
+If for some reason the `IDE` complains that it cant find the `build` task, we must provide one.
+
+Tasks for debugging are usually stored in a file `tasks.json` the same place `launch.json` lives.
+
+If its not there, we simply create one, the skeleton looks something like this
+
+Also, make sure that `"preLaunchTask": "build",` is present in the `launch.json` file.
+
+The `label` of this task must match the one in `preLaunchTask`.
+
+```json
+{
+    "version": "2.0.0",
+    "tasks": []
+}
+```
+
+Inside that `tasks` array, we add the following
+
+```json
+{
+    "label": "build",
+    "command": "dotnet",
+    "type": "process",
+    "args": [
+        "build",
+        "${workspaceFolder}/debugging.csproj",
+        "/property:GenerateFullPaths=true",
+        "/consoleloggerparameters:NoSummary;ForceNoAlign"
+    ],
+    "problemMatcher": "$msCompile"
+}
+```
+
+And we should be good to go.
+
+## Running the debugger
+
+Add a breakpoint somewhere in the code.
+
+Go to the debugger tab with `Ctrl + Shift + D`.
+
+Press `F5` to start the debugger.
+- Press `F5` while debugging to continue.
+- Press `Shift + F5` to stop the debugger.
+
+Some other common usecases
+- Press `F10` executes the current line, if its a function call, the debugger runs the function without entering its context.
+- Press `F11` same as above, but enters the function call context and pauses at its first line.
+- Press `Shift + F11` - to step out of a function call, the function completes its execution and we are paused back at the caller.
+
+## Debugging practice
+The best way to practice debugging is to see it in action.
+
+Take the code provided in this example and follow these steps:
+- Set a breakpoint inside `CountDown` on `message = $"Countdown: {i}";` right before a function call.
+    - **Step into** with `F11`, you might have to press it twice to get to the `Broadcast` function call
+        - Watch the debugger get inside the Broadcast execution context.
+    - Once inside `Broadcast`, theres not much to debug here, only a console log
+        - **Step out** with `Shift+F11`, which allows Broadcast to finish its execution and we are back at the caller.
+            - We can verify this by seeing the message being printed in the Debug console, even though we didnt step over that line.
+    - Once in `CountDown`, we can keep running the code by **Stepping Over** with `F10` as we know `Broadcast` is fine.
+        - From here we can watch the variables `i`, `n` and `message` to see if our CountDown function behaves as expected.
+    
+
+Happy debugging.
 
 # Author
 [Yosmel Chiang](https://github.com/yosang)
