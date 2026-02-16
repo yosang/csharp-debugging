@@ -72,7 +72,28 @@ namespace Debugging
             }
 
 
-            // Using a builint Exception class
+            // Using a built-in Exception classes
+
+            // IndexOutOfRangeException
+            int[] myArr = new int[5] { 2, 5, 6, 10, 78 };
+
+            try
+            {
+                myArr[2] = 50; // This works just fine, notice 6 (pos 2) was replaced by 50
+                foreach (int num in myArr)
+                {
+                    Console.WriteLine("{0}", num); // Logs all the numbers in the array
+                }
+                myArr[6] = 25; // Wont work, throws exception: Index was outside the bounds of the array.
+
+            }
+            catch (IndexOutOfRangeException err)
+            {
+                Console.WriteLine("" + err.Message);
+                throw;
+            }
+
+            // DivideByZeroException
             try
             {
                 // int result = divideTwoNums(2, 0); // Uncomment for an erronous operation
