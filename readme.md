@@ -1,3 +1,16 @@
+- [Debugging](#debugging)
+- [Debugger](#debugger)
+  - [Configuration](#configuration)
+  - [Custom Configuration](#custom-configuration)
+  - [build task](#build-task)
+  - [Running the debugger](#running-the-debugger)
+  - [Debugging practice](#debugging-practice)
+- [Exception Handling](#exception-handling)
+  - [Exception Classes](#exception-classes)
+  - [Custom Exception Classes](#custom-exception-classes)
+  - [Exception filters](#exception-filters)
+- [Author](#author)
+
 # Debugging
 The art of finding, analyzing and correcting errors in code.
 
