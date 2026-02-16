@@ -225,6 +225,16 @@ public static int multiPlyByFive(int a)
 
 Then we handle it in the `catch` block:
 
+If we `throw` the exception in the catch block, and `Unhandled exception` will show up, followed by the Exception class and the stack trace of where the exception happened. This is useful so we can handle the exception.
+
+However, we got to be careful we dont loose stack trace information when re-throwing exceptions:
+- `throw <exception>` - Resets the stack trace
+    - It treats the exception as a brand-new throw.
+    - the stack trace now starts from the line where `throw err;` happened, instead of where it originally was thrown from.
+    - we loose information about the entire root of the exception.
+- `throw` - Keeps the stack trace, showing where the call happened, and where the exception was thrown from.
+    - we keep all the information we need during debugging.
+
 ```c#
             // Using a custom exception
             try
@@ -237,6 +247,7 @@ Then we handle it in the `catch` block:
             catch (NumTooLow err)
             {
                 Console.WriteLine("Custom error: " + err.Message);
+                throw;
             }
 ```
 

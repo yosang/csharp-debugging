@@ -49,14 +49,22 @@ namespace Debugging
             // Using a custom exception
             try
             {
-                // int result = multiPlyByFive(0); // Uncomment for an erronous operation
-                int result = multiPlyByFive(2); // Uncomment for a successful operation
+                int result = multiPlyByFive(0); // Uncomment for an erronous operation
+                // int result = multiPlyByFive(2); // Uncomment for a successful operation
 
                 Console.WriteLine(result);
             }
             catch (NumTooLow err)
             {
                 Console.WriteLine("Custom error: " + err.Message);
+
+                // Keeps the strack trace in tact, this shows the problem happend in line 12 and originates from the call in line 52.
+                throw;
+
+                // Here we loose a lot of information
+                // The stack trace history is gone, as this treats the exception as a brand new exception
+                // The stack trace only points to line 67 now and everything before it is unknown.
+                // throw err;
             }
             catch (Exception err) // We can add more catch blocks, in case something else unexpected happens
             {
@@ -76,7 +84,7 @@ namespace Debugging
             {
                 Console.WriteLine("Error: " + err.Message); // Error: Attempted to divide by zero.
 
-                // throw err; // Re-throws the error
+                throw; // Re-throws the error
             }
             finally
             {
