@@ -176,8 +176,8 @@ Happy debugging.
 # Exception Handling
 Exceptions are types of errors that can arise during execution of code.
 
-We can handle exception errrors with:
-- `Try` block - Includes code that might or might not result in an erronous operation.
+We can handle exception errors with:
+- `Try` block - Includes code that might or might not result in an erroneous operation.
 - `Catch` block - Takes the Exception type and a variable, in the code block we can handle what to do with the error object
     - We can log it, or re-throw it if we want.
 - `Finally` block - This code block will run regardless of an error arising or not.
@@ -191,7 +191,7 @@ The System.SystemException has a bunch of classes we can work with, some of whic
 - `ArrayTypeMismatchException` - When an arrays type does not match.
 - `DivideByZeroException` - When we try to divide by zero.
 - `IndexOutOfRangeException` - When we try to access an index that is out of the array's index range.
-- `InvalidOperationException` - When a method call is invalid for for the current state.
+- `InvalidOperationException` - When a method call is invalid for the current state.
 - `NullReferenceException` - When we try to use a variable that is null as if it was an actual object.
 - ...
 
@@ -204,7 +204,7 @@ The constructor of this class can for simplicity use the `message` property, inh
     // Custom Exception class
     public class NumTooLow : Exception
     {
-        // Constructoir inherits message from Exception base classwith base.
+        // Constructor inherits message from Exception base classwith base.
         public NumTooLow(string message) : base(message) { }
     }
 ```
@@ -229,7 +229,7 @@ Then we handle it in the `catch` block:
             // Using a custom exception
             try
             {
-                // int result = multiPlyByFive(0); // Uncomment for an erronous operation
+                // int result = multiPlyByFive(0); // Uncomment for an erroneous operation
                 int result = multiPlyByFive(2); // Uncomment for a successful operation
 
                 Console.WriteLine(result);
