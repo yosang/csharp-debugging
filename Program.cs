@@ -35,7 +35,10 @@
             // Exception handling
             try
             {
-                divideTwoNums(2, 0);
+                int result = divideTwoNums(2, 0); //
+                // int result = divideTwoNums(4, 2); // Uncomment for a successful operation
+
+                Console.WriteLine(result); // Never runs if we try to divide by 0
             }
             catch (DivideByZeroException err)
             {
