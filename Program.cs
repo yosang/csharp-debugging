@@ -59,7 +59,7 @@ namespace Debugging
                 Console.WriteLine("Custom error: " + err.Message);
 
                 // Keeps the strack trace in tact, this shows the problem happend in line 12 and originates from the call in line 52.
-                throw;
+                // throw;
 
                 // Here we loose a lot of information
                 // The stack trace history is gone, as this treats the exception as a brand new exception

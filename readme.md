@@ -251,5 +251,19 @@ However, we got to be careful we dont loose stack trace information when re-thro
             }
 ```
 
+## Exception filters
+Filters that allow us to check wether an Exception fits a specific criteria.
+
+Instead of writing a bunch of catch blocks, we can simplify this by adding a condition.
+
+Exception filters apply `when` the condition evaluates to true.
+
+Most of the time we wont need this, but if we want to check for multiple conditions, like the `Exception` being a specific type, and the message containing something specific, then we can use it.
+
+```c#
+catch (Exception err) when (err is NumTooLow && err.Message.Contains("404"))
+
+```
+
 # Author
 [Yosmel Chiang](https://github.com/yosang)
